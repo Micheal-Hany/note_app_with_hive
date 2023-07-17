@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CustomSearchIcon extends StatelessWidget {
-  CustomSearchIcon({required this.icon, required this.color});
+  CustomSearchIcon({required this.icon, required this.color,required this.onPressed});
   final IconData icon;
   final Color color;
+  final  void Function()? onPressed;
   @override
   Widget build(BuildContext context) {
     return Container(

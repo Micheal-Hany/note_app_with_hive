@@ -1,103 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:note_app_with_hive/views/widgets/custom-button.dart';
-import 'package:note_app_with_hive/views/widgets/custom-text-field.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:note_app_with_hive/cubits/Add-Note-cubit/add_note_cubit.dart';
+import 'package:note_app_with_hive/views/widgets/Note-form.dart';
 
 class AddNoteShowModelButtonSheet extends StatelessWidget {
-  const AddNoteShowModelButtonSheet({super.key});
-
+  AddNoteShowModelButtonSheet({super.key});
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        child: const addNoteForm(),
-      ),
-    );
-  }
-}
-
-class addNoteForm extends StatefulWidget {
-  const addNoteForm({
-    super.key,
-  });
-
-  @override
-  State<addNoteForm> createState() => _addNoteFormState();
-}
-
-class _addNoteFormState extends State<addNoteForm> {
-  final formkey = GlobalKey<FormState>();
-  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-  String? title, subTitle;
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: formkey,
-      autovalidateMode: autovalidateMode,
-      child: Column(
-        children: [
-          CustomTextFled(
-            hint: 'Title',
-            maxLines: 1,
-            onSaved: (p0) {
-              title = p0;
-            },
-          ),
-          CustomTextFled(
-            hint: 'Content',
-            maxLines: 5,
-            onSaved: (p0) {
-              subTitle = p0;
-            },
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          CustomButton(
-            onTap: () {
-              if (formkey.currentState!.validate()) {
-                formkey.currentState!.save();
-              } else {
-                autovalidateMode = AutovalidateMode.always;
-                setState(() {});
+    return BlocProvider(
+        create: (context) => AddNoteCubit(),
+        child: Container(
+          child: BlocConsumer<AddNoteCubit, AddNoteState>(
+            listener: (context, state) {
+              if (state is AddNoteSuccess) {
+                Navigator.pop(context);
+              } else if (state is AddNoteFailer) {
+                print('Filed --------> ${state.errorMassage}');
               }
             },
+            builder: (context, state) {
+              return AbsorbPointer(
+                  absorbing: state is AddNoteLoading ? true : false,
+                  child: Padding(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom),
+                      child:
+                          const SingleChildScrollView(child: addNoteForm())));
+            },
           ),
-          const SizedBox(
-            height: 10,
-          )
-        ],
-      ),
-    );
+        ));
   }
 }
-
-
-
-
-// class addNoteForm extends StatefulWidget {
-//   const addNoteForm({
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   State<addNoteForm> createState() => _addNoteFormState();
-// }
-
-// class _addNoteFormState extends State<addNoteForm> {
-//   final formkey = GlobalKey<FormState>(); // Initialize formkey with a new instance of GlobalKey<FormState>
-//   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-//   String? title, subTitle;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Form(
-//       key: formkey, // Set the formkey to the Form widget
-//       autovalidateMode: autovalidateMode,
-//       child: Column(
-//         children: [
-//           // ...
-//         ],
-//       ),
-//     );
-//   }
-// }

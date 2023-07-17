@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:note_app_with_hive/cubits/NoteCubit/notes_cubit.dart';
+import 'package:note_app_with_hive/models/note-model.dart';
 import 'package:note_app_with_hive/views/edit-not.dart';
 import 'package:note_app_with_hive/views/widgets/custom-icon.dart';
 
 class NoteItem extends StatelessWidget {
-  const NoteItem({super.key});
-
+  const NoteItem({required this.notsModel});
+  final NoteModel notsModel;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -20,20 +22,22 @@ class NoteItem extends StatelessWidget {
         child: Column(
           children: [
             ListTile(
-              title: const Text(
-                'Flutter Tips',
+              title: Text(
+                notsModel.title,
                 style: TextStyle(color: Colors.black),
               ),
-              trailing: CustomSearchIcon(
-                icon: Icons.delete,
-                color: Colors.black,
-              ),
+              trailing: IconButton(
+                  onPressed: () {
+                    notsModel.delete();
+                  },
+                  color: Colors.black,
+                  icon: const Icon(Icons.delete)),
               titleTextStyle: const TextStyle(fontSize: 24),
               subtitleTextStyle: const TextStyle(fontSize: 16),
               subtitle: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Text(
-                  'Builed your career with flutter with Micheal Hany',
+                  notsModel.subtitle,
                   style: TextStyle(
                       color: Colors.black.withOpacity(.5), fontSize: 18),
                 ),
@@ -43,7 +47,7 @@ class NoteItem extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Text('May21 , 2023',
+                child: Text(notsModel.date,
                     style: TextStyle(
                         color: Colors.black.withOpacity(.5), fontSize: 16)),
               ),

@@ -18,7 +18,7 @@ class EditNoteViewBody extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Edit Note', style: TextStyle(fontSize: 29)),
-              CustomSearchIcon(
+              CustomSearchIcon(onPressed: (){},
                 icon: Icons.check,
                 color: Colors.white.withOpacity(.5),
               ),

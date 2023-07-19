@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:note_app_with_hive/cubits/Add-Note-cubit/add_note_cubit.dart';
+import 'package:note_app_with_hive/cubits/NoteCubit/notes_cubit.dart';
 import 'package:note_app_with_hive/views/widgets/Note-form.dart';
 
 class AddNoteShowModelButtonSheet extends StatelessWidget {
@@ -13,6 +14,7 @@ class AddNoteShowModelButtonSheet extends StatelessWidget {
           child: BlocConsumer<AddNoteCubit, AddNoteState>(
             listener: (context, state) {
               if (state is AddNoteSuccess) {
+                BlocProvider.of<NotesCubit>(context).fatchAllNotes();
                 Navigator.pop(context);
               } else if (state is AddNoteFailer) {
                 print('Filed --------> ${state.errorMassage}');
@@ -31,3 +33,4 @@ class AddNoteShowModelButtonSheet extends StatelessWidget {
         ));
   }
 }
+

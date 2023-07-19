@@ -3,15 +3,16 @@ import 'package:note_app_with_hive/constants.dart';
 
 class CustomTextFled extends StatelessWidget {
   const CustomTextFled(
-      {required this.hint, required this.maxLines, this.onSaved});
+      {required this.hint, required this.maxLines, this.onSaved,this.onChanged});
   final String hint;
   final int maxLines;
   final void Function(String?)? onSaved;
+ final void Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-      child: TextFormField(
+      child: TextFormField(onChanged:onChanged,
         validator: (value) {
           if (value?.isEmpty ?? true) {
             return ' Filed id required';

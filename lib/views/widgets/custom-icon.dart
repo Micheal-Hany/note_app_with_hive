@@ -18,7 +18,7 @@ class CustomSearchIcon extends StatelessWidget {
             color: color,
             size: 28,
           ),
-          onPressed: () {}),
+          onPressed:onPressed),
     );
   }
 }

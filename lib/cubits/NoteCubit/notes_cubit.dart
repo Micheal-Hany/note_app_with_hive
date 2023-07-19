@@ -14,6 +14,7 @@ List<NoteModel>? notes;
   fatchAllNotes() async {
     var notesBox = Hive.box<NoteModel>(knotesBox);
     notes = notesBox.values.toList();
+    emit(NotesSuccess());
 
     print('----------${notes!.length} ------------------success');
   }

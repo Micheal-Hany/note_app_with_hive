@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:note_app_with_hive/constants.dart';
 import 'package:note_app_with_hive/cubits/NoteCubit/notes_cubit.dart';
 import 'package:note_app_with_hive/models/note-model.dart';
+import 'package:note_app_with_hive/views/widgets/color-list-view.dart';
 import 'package:note_app_with_hive/views/widgets/custom-icon.dart';
 import 'package:note_app_with_hive/views/widgets/custom-text-field.dart';
 
@@ -57,7 +59,55 @@ class _EditNoteViewBodyState extends State<EditNoteViewBody> {
             subTitle = value;
           },
         ),
+        EditNopteColorsList(
+          note: widget.note,
+        )
       ],
+    );
+  }
+}
+
+class EditNopteColorsList extends StatefulWidget {
+  EditNopteColorsList({required this.note});
+  NoteModel note;
+  @override
+  State<EditNopteColorsList> createState() => _EditNopteColorsListState();
+}
+
+class _EditNopteColorsListState extends State<EditNopteColorsList> {
+  @override
+  late int currentrIOndex;
+  void initState() {
+    currentrIOndex = kcolors.indexOf(Color(widget.note.color));
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 70,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: kcolors.length,
+        // shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: GestureDetector(
+              onTap: () {
+                currentrIOndex = index;
+                widget.note.color = kcolors[index].value;
+                setState(() {});
+              },
+              child: ColorItem(
+                color: kcolors[index],
+                isActive: currentrIOndex == index,
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
